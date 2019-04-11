@@ -12,8 +12,8 @@
 
 
 volatile char rsp_ok=0;
-struct ringbuf ring_fifo;
-struct ringbuf ring_fifo1;
+RingBuf ring_fifo;
+RingBuf ring_fifo1;
 uint8_t rx_fifo[512];
 uint8_t rx_fifo1[512];
 int8_t dl_buf_id=-1;
@@ -198,14 +198,6 @@ void USART2_IRQHandler(void)
 		else if((msg_p = (uint8_t *)strstr((const char *)ring_fifo.data, "+CEREG:1")) != NULL)
 		{
 //			RUN_LED = 0;
-		}
-		else if((msg_p = (uint8_t *)strstr((const char *)ring_fifo.data, "+CSQ:")) != NULL)
-		{
-			memcpy(cmd_rx_buff,ring_fifo.data,ringbuf_elements(&ring_fifo));
-		}
-		else if((msg_p = (uint8_t *)strstr((const char *)ring_fifo.data, "+CCLK:")) != NULL)
-		{
-			memcpy(cmd_rx_buff,ring_fifo.data,ringbuf_elements(&ring_fifo));
 		}
 		else
 		{

@@ -99,8 +99,6 @@ void vTaskSENSOR(void *pvParameters)
 		}
 
 		delay_ms(100);
-
-//		SENSOR_Satck = uxTaskGetStackHighWaterMark(NULL);
 	}
 }
 

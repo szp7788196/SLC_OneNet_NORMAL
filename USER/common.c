@@ -39,6 +39,8 @@ u8 *HardWareVersion = NULL;			//硬件版本号
 u8 *DeviceName = NULL;				//设备名称
 u8 *DeviceID = NULL;				//设备ID
 u8 *DeviceUUID = NULL;				//设备UUID
+u8 *DeviceICCID = NULL;				//ICCID
+u8 *DeviceIMSI = NULL;				//IMSI
 
 /***************************网络相关*********************************/
 u8 Operators = 1;					//运营商编号
@@ -49,7 +51,7 @@ u8 *ServerPort = NULL;				//服务器端口号
 u8 *LocalIp = NULL;					//本地IP地址
 
 /***************************运行参数相关*****************************/
-u16 UpLoadINCL = 20;				//数据上传时间间隔0~65535秒
+u16 UpLoadINCL = 30;				//数据上传时间间隔0~65535秒
 u8 PowerINTFC = 2;					//电源控制接口编号 0:0~10V  1:PWM  2:UART
 u8 TimeZone = 8;					//时区偏移量
 
@@ -597,6 +599,26 @@ u8 GetDeviceUUID(void)
 	return ret;
 }
 
+//获取设备ICCID
+u8 GetDeviceICCID(void)
+{
+	u8 ret = 0;
+
+	ret = GetMemoryForString(&DeviceICCID, 2, 0, ICC_ID_ADD, ICC_ID_LEN - 2, HoldReg);
+
+	return ret;
+}
+
+//获取设备IMSI
+u8 GetDeviceIMSI(void)
+{
+	u8 ret = 0;
+
+	ret = GetMemoryForString(&DeviceIMSI, 2, 0, IMSI_ID_ADD, IMSI_ID_LEN - 2, HoldReg);
+
+	return ret;
+}
+
 //获取APN
 u8 GetAPN(void)
 {
@@ -794,6 +816,58 @@ u8 ReadDeviceUUID(void)
 		memset(DeviceUUID,0,UU_ID_LEN);
 
 		sprintf((char *)DeviceUUID, "00000000000000000");
+	}
+
+	return ret;
+}
+
+//读取设备ICCID
+u8 ReadDeviceICCID(void)
+{
+	u8 ret = 0;
+
+	ret = ReadDataFromEepromToHoldBuf(HoldReg,ICC_ID_ADD, ICC_ID_LEN);
+
+	if(ret)
+	{
+		GetDeviceICCID();
+	}
+	else
+	{
+		if(DeviceICCID == NULL)
+		{
+			DeviceICCID = (u8 *)mymalloc(sizeof(u8) * ICC_ID_LEN);
+		}
+
+		memset(DeviceICCID,0,ICC_ID_LEN);
+
+		sprintf((char *)DeviceICCID, "00000000000000000000");
+	}
+
+	return ret;
+}
+
+//读取设备IMSI
+u8 ReadDeviceIMSI(void)
+{
+	u8 ret = 0;
+
+	ret = ReadDataFromEepromToHoldBuf(HoldReg,IMSI_ID_ADD, IMSI_ID_LEN);
+
+	if(ret)
+	{
+		GetDeviceIMSI();
+	}
+	else
+	{
+		if(DeviceIMSI == NULL)
+		{
+			DeviceIMSI = (u8 *)mymalloc(sizeof(u8) * IMSI_ID_LEN);
+		}
+
+		memset(DeviceIMSI,0,IMSI_ID_LEN);
+
+		sprintf((char *)DeviceIMSI, "000000000000000");
 	}
 
 	return ret;
@@ -1053,6 +1127,7 @@ void WriteOTAInfo(u8 *hold_reg,u8 reset)
 	}
 
 	*(hold_reg + FIRM_WARE_FLAG_S_ADD) 			= HaveNewFirmWare;
+	*(hold_reg + FIRM_WARE_TYPE_S_ADD) 			= DEVICE_TYPE;
 	*(hold_reg + FIRM_WARE_STORE_ADD_S_ADD) 	= NewFirmWareAdd;
 	*(hold_reg + FIRM_WARE_VER_S_ADD + 0) 		= (u8)((NewFirmWareVer >> 8) & 0x00FF);
 	*(hold_reg + FIRM_WARE_VER_S_ADD + 1) 		= (u8)(NewFirmWareVer & 0x00FF);

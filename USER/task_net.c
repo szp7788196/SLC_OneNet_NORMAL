@@ -450,19 +450,15 @@ void sync_sensor_data(void)
 		out_put_current.value.as_float 	= (double)p_tSensorMsgNet->out_put_current;
 		out_put_voltage.value.as_float 	= (double)p_tSensorMsgNet->out_put_voltage;
 		signal_intensity.value.as_float = (double)p_tSensorMsgNet->signal_intensity;
-		
-		in_put_current.value.as_float 	= 500;
-		out_put_current.value.as_float 	= 500;
-		in_put_voltage.value.as_float 	= 220;
-//		out_put_voltage.value.as_float 	= 100;
-		in_put_freq.value.as_float 		= 50;
-		in_put_power_p.value.as_float 	= 100;
-		in_put_power_q.value.as_float 	= -10;
-		in_put_power_s.value.as_float 	= 110;
-		in_put_energy_p.value.as_float 	= 1000;
-		in_put_energy_q.value.as_float 	= 50;
-		in_put_energy_s.value.as_float 	= 1050;
-//		signal_intensity.value.as_float = ;
+		in_put_current.value.as_float 	= (double)p_tSensorMsgNet->in_put_current;
+		in_put_voltage.value.as_float 	= (double)p_tSensorMsgNet->in_put_current;
+		in_put_freq.value.as_float 		= (double)p_tSensorMsgNet->in_put_freq;
+		in_put_power_p.value.as_float 	= (double)p_tSensorMsgNet->in_put_power_p;
+		in_put_power_q.value.as_float 	= (double)p_tSensorMsgNet->in_put_power_q;
+		in_put_power_s.value.as_float 	= (double)p_tSensorMsgNet->in_put_power_s;
+		in_put_energy_p.value.as_float 	= (double)p_tSensorMsgNet->in_put_energy_p;
+		in_put_energy_q.value.as_float 	= (double)p_tSensorMsgNet->in_put_energy_q;
+		in_put_energy_s.value.as_float 	= (double)p_tSensorMsgNet->in_put_energy_s;
 	}
 }
 
@@ -554,36 +550,31 @@ void vTaskNET(void *pvParameters)
 			{
 				sync_csq_time = nbiot_time();
 				
-				SignalIntensity = bcxx_get_csq();
+				SignalIntensity = bcxx_get_AT_CSQ();
 				
 				SyncDataTimeFormBcxxModule(3600);
 			}
 		}
 		
-		ret = nbiot_device_step( dev, -1);
+		ret = nbiot_device_step(dev, -1);
 
 		if ( ret )
 		{
 #ifdef DEBUG_LOG
 			printf( "device step error, code = %d.\r\n", ret );
 #endif
-//			if(ret != -12)
-//			{
-				unregister_all_things();
+			unregister_all_things();
 
-				goto RE_INIT_BCXX;
-//			}
+			goto RE_INIT_BCXX;
 		}
 		else
 		{
-			res_update(1200);
+			res_update(UpLoadINCL);
 		}
 		
 		sync_sensor_data();
 		
 		delay_ms(100);
-
-//		NET_Satck = uxTaskGetStackHighWaterMark(NULL);
 	}
 }
 

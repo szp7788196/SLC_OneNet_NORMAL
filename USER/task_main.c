@@ -17,8 +17,6 @@ void vTaskMAIN(void *pvParameters)
 {
 	time_t times_sec = 0;
 
-	SetLightLevel(PowerINTFC, 100);
-	delay_ms(1000);
 	SetLightLevel(PowerINTFC, INIT_LIGHT_LEVEL);
 
 	while(1)

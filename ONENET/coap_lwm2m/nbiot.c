@@ -449,7 +449,7 @@ static void handle_transaction(nbiot_device_t  *dev,
                                size_t          buffer_len,
                                size_t          max_buffer_len)
 {
-	char *msg = NULL,i = 0,tmp[10];
+	char *msg = NULL,i = 0,tmp[64];
 	nbiot_uri_t  uri;
 	nbiot_transaction_t *transaction = NULL;
 
@@ -494,7 +494,7 @@ static void handle_transaction(nbiot_device_t  *dev,
 
 		if(uri.instid >= 0)
 		uri.flag |= NBIOT_SET_INSTID;
-		while(*msg != '\0')
+		while(*msg != '\r')
 		tmp[i ++] = *(msg ++);
 		tmp[i] = '\0';
 		i = 0;
@@ -527,25 +527,12 @@ static void handle_transaction(nbiot_device_t  *dev,
 		msg = msg + 1;
 		uri.msgid = nbiot_atoi(tmp,strlen(tmp));
 
-		while(*msg != ',')
+		while(*msg != '\r')
 		tmp[i ++] = *(msg ++);
 		tmp[i] = '\0';
 		i = 0;
 		msg = msg + 1;
 		uri.objid = nbiot_atoi(tmp,strlen(tmp));
-
-		if(uri.objid > 0)
-		uri.flag |= NBIOT_SET_OBJID;
-
-		while(*msg != ',')
-		tmp[i ++] = *(msg ++);
-		tmp[i] = '\0';
-		i = 0;
-		msg = msg + 1;
-		uri.instid = nbiot_atoi(tmp,strlen(tmp));
-
-		if(uri.instid >= 0)
-			uri.flag|=NBIOT_SET_INSTID;
 
 		memset(buf,0,sizeof(buf));
 		obj = (nbiot_node_t*)dev->nodes;
@@ -597,6 +584,8 @@ static void handle_transaction(nbiot_device_t  *dev,
 				printf("discover: msgid %d objid %d\r\n",uri.msgid,uri.objid);
 #endif
 				handle_discover(&uri,strlen(buf),buf);
+
+				break;
 			}
 
 			obj = obj->next;
@@ -609,7 +598,7 @@ static void handle_transaction(nbiot_device_t  *dev,
 		if(msg == NULL)
 			return;
 
-		while(*(msg) != '\0')
+		while(*msg != '\0')
 		tmp[i ++] = *(msg ++);
 		tmp[i] = '\0';
 		
