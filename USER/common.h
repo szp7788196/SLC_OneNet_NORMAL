@@ -153,6 +153,7 @@
 typedef struct RegularTime *pRegularTime;
 struct RegularTime
 {
+	u8 number;
 	u8 type;			//策略类别Bit0:1 工作日 Bit1:1 周末 Bit2:1节日
 
 	u8 year;
@@ -163,8 +164,8 @@ struct RegularTime
 
 	u8 percent;
 
-	RegularTime_S *prev;
-	RegularTime_S *next;
+	pRegularTime prev;
+	pRegularTime next;
 };
 
 
@@ -299,13 +300,16 @@ static u8 auchCRCLo[] =
 extern SemaphoreHandle_t  xMutex_IIC1;			//IIC1的互斥量
 extern SemaphoreHandle_t  xMutex_INVENTR;		//英飞特电源的互斥量
 extern SemaphoreHandle_t  xMutex_AT_COMMAND;	//AT指令的互斥量
+extern SemaphoreHandle_t  xMutex_STRATEGY;		//AT指令的互斥量
 
 extern QueueHandle_t xQueue_sensor;				//用于存储传感器的数据
 
 extern u8 HoldReg[HOLD_REG_LEN];
 extern u8 RegularTimeGroups[TIME_BUF_LEN];
 extern u8 TimeGroupNumber;
-extern RegularTime_S RegularTimeStruct[MAX_GROUP_NUM];
+extern pRegularTime RegularTimeWeekDay;			//工作日策略
+extern pRegularTime RegularTimeWeekEnd;			//周末策略
+extern pRegularTime RegularTimeHoliday;			//节假日策略
 
 /***************************固件升级相关*****************************/
 extern u8 NeedUpDateFirmWare;			//有新固件需要加载
@@ -424,7 +428,8 @@ u8 ReadRegularTimeGroups(void);
 
 void ReadParametersFromEEPROM(void);
 
-
+u8 RegularTimeGroupAdd(u8 type,pRegularTime group_time);
+u8 RegularTimeGroupSub(u8 number);
 
 
 
