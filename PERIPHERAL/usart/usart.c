@@ -576,15 +576,6 @@ void TIM2_IRQHandler(void)
 
 			SysTick100msAdder();	//100ms滴答计数器累加
 		}
-		
-		if(dali_get_flag()==RECEIVING_DATA)
-		{
-			dali_receive_tick();
-		}
-		else if(dali_get_flag()==SENDING_DATA)
-		{
-			dali_send_tick();
-		}
 	}
 }
 

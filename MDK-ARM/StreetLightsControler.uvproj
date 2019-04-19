@@ -297,7 +297,7 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0x8024000</StartAddress>
+                <StartAddress>0x8008000</StartAddress>
                 <Size>0x1c000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
@@ -351,7 +351,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\DEVICEDRIVER;..\FREERTOS\inc;..\MALLOC;..\JSON;..\FWLIB\inc;..\PROTOCOL;..\SYSTEM\delay;..\SYSTEM\sys;..\USER;..\PERIPHERAL\iic1;..\DEVICEDRIVER\24cxx;..\DEVICEDRIVER\sht2x;..\DEVICEDRIVER\bh1750;..\PERIPHERAL\iic2;..\DEVICEDRIVER\led;..\PERIPHERAL\rtc;..\PERIPHERAL\usart;..\DEVICEDRIVER\power;..\DEVICEDRIVER\bcxx;..\ONENET\include;..\MEMORY;..\DEVICEDRIVER\att7059x;..\DEVICEDRIVER\cd4015b;..\DEVICEDRIVER\dali;..\DEVICEDRIVER\pwm;..\DEVICEDRIVER\mcp4725</IncludePath>
+              <IncludePath>..\CORE;..\DEVICEDRIVER;..\FREERTOS\inc;..\MALLOC;..\JSON;..\FWLIB\inc;..\PROTOCOL;..\SYSTEM\delay;..\SYSTEM\sys;..\USER;..\PERIPHERAL\iic1;..\DEVICEDRIVER\24cxx;..\DEVICEDRIVER\sht2x;..\DEVICEDRIVER\bh1750;..\PERIPHERAL\iic2;..\DEVICEDRIVER\led;..\PERIPHERAL\rtc;..\PERIPHERAL\usart;..\DEVICEDRIVER\power;..\DEVICEDRIVER\bcxx;..\ONENET\include;..\MEMORY;..\DEVICEDRIVER\att7059x;..\DEVICEDRIVER\cd4015b;..\DEVICEDRIVER\dali;..\DEVICEDRIVER\pwm;..\PERIPHERAL\dac</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -502,6 +502,11 @@
               <FileType>1</FileType>
               <FilePath>..\PERIPHERAL\usart\usart2.c</FilePath>
             </File>
+            <File>
+              <FileName>dac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\PERIPHERAL\dac\dac.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -546,11 +551,6 @@
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DEVICEDRIVER\pwm\pwm.c</FilePath>
-            </File>
-            <File>
-              <FileName>mcp4725.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\DEVICEDRIVER\mcp4725\mcp4725.c</FilePath>
             </File>
             <File>
               <FileName>att7059x.c</FileName>

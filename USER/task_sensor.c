@@ -31,7 +31,7 @@ void vTaskSENSOR(void *pvParameters)
 
 	while(1)
 	{
-		if(GetSysTick1s() - times_sec >= 10)		//每隔10秒更新一次传感器数据
+		if(GetSysTick1s() - times_sec >= UpLoadINCL)		//每隔10秒更新一次传感器数据
 		{
 			times_sec = GetSysTick1s();
 
