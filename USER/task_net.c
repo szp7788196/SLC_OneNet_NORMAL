@@ -451,7 +451,7 @@ void sync_sensor_data(void)
 		out_put_voltage.value.as_float 	= (double)p_tSensorMsgNet->out_put_voltage;
 		signal_intensity.value.as_float = (double)p_tSensorMsgNet->signal_intensity;
 		in_put_current.value.as_float 	= (double)p_tSensorMsgNet->in_put_current;
-		in_put_voltage.value.as_float 	= (double)p_tSensorMsgNet->in_put_current;
+		in_put_voltage.value.as_float 	= (double)p_tSensorMsgNet->in_put_voltage;
 		in_put_freq.value.as_float 		= (double)p_tSensorMsgNet->in_put_freq;
 		in_put_power_p.value.as_float 	= (double)p_tSensorMsgNet->in_put_power_p;
 		in_put_power_q.value.as_float 	= (double)p_tSensorMsgNet->in_put_power_q;
